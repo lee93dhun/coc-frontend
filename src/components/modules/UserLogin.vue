@@ -34,7 +34,7 @@
     password:''
   })
 
-  const login = (token: string) =>{
+  const login = () =>{
     userLogin(loginForm).then( (response) => {
       if(response.token != null){
         localStorage.setItem('accessToken', response.token);
@@ -43,7 +43,7 @@
 
         if (previousRoute) {
           alert('test :: go to previous path');
-          authStore.setLogin(token);
+          authStore.setLogin(response.token);
           router.push(previousRoute);
           localStorage.removeItem('previousRoute');
         } else {
