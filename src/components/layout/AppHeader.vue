@@ -12,7 +12,8 @@
       </b-nav>
       <div class="header-account">
         <template v-if="authStore.isLogin">
-          <p><b>{{authStore.loginId}}</b> 님 로그인 럭키비키잖아</p>
+          <b>{{authStore.loginId}}</b>님, 로그인 럭키비키잖아
+          <b-button size="sm" variant="light" @click="logout">로그아웃</b-button>
         </template>
         <template v-else>
           <b-button variant="outline-primary" @click="showLoginForm">로그인</b-button>
@@ -31,6 +32,10 @@ const authStore = useAuthStore();
 
 const showLoginForm = () => {
   router.push('/login')
+}
+
+const logout = ()=>{
+  authStore.logout();
 }
 
 const goBoard = ((n: number)=>{
