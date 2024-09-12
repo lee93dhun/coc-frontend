@@ -5,26 +5,42 @@
     </div>
     <div class="header-navbar">
       <b-nav>
-        <b-nav-item >공지사항</b-nav-item>
-        <b-nav-item>자유 게시판</b-nav-item>
-        <b-nav-item>갤러리</b-nav-item>
-        <b-nav-item>문의 게시판</b-nav-item>
+        <b-nav-item @click="() => goBoard(1)">공지사항</b-nav-item>
+        <b-nav-item @click="() => goBoard(2)">자유 게시판</b-nav-item>
+        <b-nav-item @click="() => goBoard(3)">갤러리</b-nav-item>
+        <b-nav-item @click="() => goBoard(4)">문의 게시판</b-nav-item>
       </b-nav>
       <div class="header-account">
-        <b-button variant="outline-primary" @click="getLoginForm">로그인</b-button>
+        <template v-if="authStore.isLogin">
+          <p>로그인 성공</p>
+        </template>
+        <template v-else>
+          <b-button variant="outline-primary" @click="showLoginForm">로그인</b-button>
+        </template>
       </div>
     </div>
   </div>
 </template>
 
-<script setup>
-import {useRouter} from 'vue-router'
+<script setup lang="ts">
+import {useRouter} from 'vue-router';
+import { useAuthStore } from '@/store/auth';
 
 const router = useRouter();
+const authStore = useAuthStore();
 
-const getLoginForm = () => {
+const showLoginForm = () => {
   router.push('/login')
 }
+
+const goBoard = ((n: number)=>{
+  if(n==1){ router.push('/board/notice');}
+  if(n==2){ router.push('/board/free');}
+  if(n==3){ router.push('/board/gallery');}
+  if(n==4){ router.push('/board/qna');}
+});
+
+
 </script>
  
 

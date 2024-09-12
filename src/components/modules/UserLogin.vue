@@ -4,7 +4,7 @@
     <table>
       <tbody>
         <tr>
-          <td><b-form-input type="text" v-model="loginForm.loginId" placeholder="ID를 입력하세요"/></td>
+          <td><b-form-input type="text" v-model="loginForm.loginId" placeholder="ID를 입력하세요" tabindex="0"/></td>
         </tr>
         <tr>
           <td><b-form-input type="password" v-model="loginForm.password" placeholder="비밀번호를 입력하세요"/></td>
@@ -21,27 +21,43 @@
 </template>
 
 <script setup lang="ts">
-  import { reactive} from 'vue';
+  import {reactive} from 'vue';
   import userLogin from '@/service/UserService';
-import router from '@/router';
+  import {useRouter} from 'vue-router';
+  import { useAuthStore } from '@/store/auth';
+
+  const router = useRouter();
+  const authStore = useAuthStore();
 
   const loginForm = reactive ({
     loginId:'',
     password:''
   })
 
-  const login = () =>{
+  const login = (token: string) =>{
     userLogin(loginForm).then( (response) => {
       if(response.token != null){
         localStorage.setItem('accessToken', response.token);
-        router.push('/');
+
+        const previousRoute = localStorage.getItem('previousRoute');
+
+        if (previousRoute) {
+          alert('test :: go to previous path');
+          authStore.setLogin(token);
+          router.push(previousRoute);
+          localStorage.removeItem('previousRoute');
+        } else {
+          alert('not found previous path');
+          router.push('/');
+        }
+
       }else{
         alert(response.message);
       }
     });
   }
 
-  
+
 
   
 
