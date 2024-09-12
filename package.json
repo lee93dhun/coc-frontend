@@ -9,12 +9,16 @@
   },
   "dependencies": {
     "@mdi/font": "5.9.55",
+    "axios": "^1.7.7",
+    "bootstrap": "^5.3.3",
+    "bootstrap-vue-next": "^0.24.12",
     "core-js": "^3.8.3",
     "lodash": "^4.17.21",
     "pinia": "^2.2.2",
     "roboto-fontface": "*",
     "vee-validate": "^4.13.2",
-    "vue": "^3.2.13",
+    "vue": "^3.5.4",
+    "vue-router": "^4.0.13",
     "vuetify": "^3.0.0-beta.0",
     "webfontloader": "^1.0.0"
   },

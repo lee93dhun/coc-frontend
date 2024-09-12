@@ -3,7 +3,7 @@
     <div class="container">
       <AppHeader/>
       <v-main>
-        <MainPage/>
+        <router-view/>
       </v-main>
     </div>
   </v-app>
@@ -11,13 +11,11 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import MainPage from './components/pages/MainPage.vue'
 import AppHeader from './components/layout/AppHeader.vue'
 export default defineComponent({
   name: 'App',
 
   components: {
-    MainPage,
     AppHeader
   },
 
