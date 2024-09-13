@@ -35,7 +35,10 @@ const showLoginForm = () => {
 }
 
 const logout = ()=>{
+  alert('정말 로그아웃 하시겠습니까 ? ');
+  // TODO 라우터 이동
   authStore.logout();
+  router.push('/');
 }
 
 const goBoard = ((n: number)=>{
