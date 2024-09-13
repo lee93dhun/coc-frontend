@@ -1,0 +1,71 @@
+<template>
+  <div class="signup-form">
+    <h3>회원가입</h3>
+    <div id="duplicate-id">
+      <b-form-input type="text" v-model="signupForm.loginId" placeholder="아이디"/>
+      <b-button variant="dark" @click="isAvailableId">중복확인</b-button>
+    </div>
+    <b-form-input type="password" v-model="signupForm.password" placeholder="비밀번호"/>
+    <b-form-input type="password" v-model="signupForm.passwordCheck" placeholder="비밀번호 확인"/>
+    <b-form-input type="text" v-model="signupForm.name" placeholder="이름"/>
+    <b-button variant="primary" @click="signup">가입하기</b-button>
+  </div>
+</template>
+
+// TODO 로그인 상태에서 접근시 막기 ("로그아웃 이후 이용")
+<script setup lang="ts">
+  import { reactive } from 'vue';
+  import userService from '@/service/UserService';
+  const signupForm = reactive({
+    loginId: "",
+    password: "",
+    passwordCheck: "",
+    name: ""
+  });
+
+  const isAvailableId = () => {
+    console.log('아이디 중복검사 실행');
+    userService.isAvailableId(signupForm.loginId).then((response)=>{
+      if(response === 'DUPLICATE'){
+        alert('중복된 아이디입니다.');
+      }
+      if(response === 'AVAILABLE'){
+        alert('사용가능한 아이디입니다.');
+      }
+      if(response === 'UNAVAILABLE'){
+        alert('사용불가능한 아이디입니다.');
+      }
+    });
+  }
+  const signup = () =>{
+    console.log('회원가입 실행');
+  };
+</script>
+
+
+<style>
+
+  .signup-form{
+    text-align: center;
+    width: 400px;
+    margin: 50px auto;
+  }
+
+  .signup-form h3 {
+    margin-bottom: 30px;
+  }
+  
+  .signup-form input, .signup-form button{
+    width: 100%;
+    margin: 3px 2px;
+  }
+  #duplicate-id{
+    display: flex;
+  }
+  #duplicate-id input{
+    width: 77%;  
+  }
+  #duplicate-id button{
+    width: 23%;  
+  }
+</style>
