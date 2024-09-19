@@ -1,7 +1,7 @@
 <template>
   <div class="header">
     <div class="header-logo">
-      <h3>Comunity of Comunity</h3>
+      <a @click="() => goBoard(0)">Comunity of Comunity</a>
     </div>
     <div class="header-navbar">
       <b-nav>
@@ -42,6 +42,7 @@ const logout = ()=>{
 }
 
 const goBoard = ((n: number)=>{
+  if(n==0){ router.push('/');}
   if(n==1){ router.push('/board/notice');}
   if(n==2){ router.push('/board/free');}
   if(n==3){ router.push('/board/gallery');}
@@ -64,6 +65,11 @@ const goBoard = ((n: number)=>{
   .header-logo{
     height: 50px;
     padding: 10px 10px;
+  }
+  .header-logo a{
+    font-size: 30px;
+    font-weight: 400;
+    cursor: pointer;
   }
 
 </style>
