@@ -32,7 +32,6 @@
         const previousRoute = localStorage.getItem('previousRoute');
 
         if (previousRoute) {
-          alert('test :: go to previous path');
           authStore.setLogin(response.token);
           router.push(previousRoute);
           localStorage.removeItem('previousRoute');
