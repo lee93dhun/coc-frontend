@@ -15,63 +15,53 @@
 // TODO 로그인 상태에서 접근시 막기 ("로그아웃 이후 이용")
 // TODO alert처리  변경
 <script setup lang="ts">
-  import { reactive, ref } from 'vue';
-  import userService from '@/service/UserService';
+import { reactive, ref } from 'vue';
+import userService from '@/service/UserService';
 import { useRouter } from 'vue-router';
 
-  const router = useRouter();
+const router = useRouter();
   
-  const signupForm = reactive({
-    loginId: "",
-    password: "",
-    userName: ""
-  });
-  const passwordCheck = ref('');
-  let availableSignup:boolean ;
+const signupForm = reactive({
+  loginId: "",
+  password: "",
+  userName: ""
+});
 
-  const isAvailableId = async() => {
-    console.log('아이디 중복검사 실행');
-    let response = null;
-    try{
-      response = await userService.isAvailableId(signupForm.loginId)
-      if(response === 'DUPLICATE'){
-        alert('중복된 아이디입니다.');
-      }
-      if(response === 'AVAILABLE'){
-        alert('사용가능한 아이디입니다.');
-        availableSignup = true;
-        console.log(availableSignup);
-      }
-      if(response === 'UNAVAILABLE'){
-        alert('사용불가능한 아이디입니다.');
-      }
-      return response;
-    }catch(error:any){
-      console.log('error = ', error.response);
-      alert(error.response.data);
-    }
+const passwordCheck = ref('');
+let availableSignup:boolean ;
+
+const isAvailableId = async() => {
+  console.log('아이디 중복검사 실행');
+  try{
+    const data = await userService.isAvailableId(signupForm.loginId);
+    alert(data.message);
+  }catch(error:any){
+    console.log(error.response.data);
+    const errMsg = error.response.data.message; 
+    alert(errMsg);
   }
+}
 
-  const signup = async() =>{
-    
-    console.log('회원가입 실행');
-    if(!availableSignup){
-      alert('아이디 중복검사를 실행해주세요.');
-      return;
-    }
-    if(signupForm.password !== passwordCheck.value){
-      alert('비밀번호를 확인해주세요.');
-      return;
-    }
-    if (!signupForm.userName || signupForm.userName.trim() === '') {
-      alert('이름을 입력해주세요.');
-      return;
-    }
-    userService.signup(signupForm, availableSignup).then(()=>{
-      alert('회원가입에 성공하였습니다. 로그인해주세요.');
-      router.push('/login');
-    });
-  };
+const signup = async() =>{
+  
+  console.log('회원가입 실행');
+  if(!availableSignup){
+    alert('아이디 중복검사를 실행해주세요.');
+    return;
+  }
+  if(signupForm.password !== passwordCheck.value){
+    alert('비밀번호를 확인해주세요.');
+    return;
+  }
+  if (!signupForm.userName || signupForm.userName.trim() === '') {
+    alert('이름을 입력해주세요.');
+    return;
+  }
+  userService.signup(signupForm, availableSignup).then(()=>{
+    alert('회원가입에 성공하였습니다. 로그인해주세요.');
+    router.push('/login');
+  });
+};
 </script>
 
 

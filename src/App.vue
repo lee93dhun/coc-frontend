@@ -1,8 +1,8 @@
 <template>
   <v-app>
-    <div class="container">
+    <div class="main-container">
       <AppHeader/>
-      <v-main>
+      <v-main class="main-content">
         <router-view/>
       </v-main>
     </div>
@@ -28,8 +28,13 @@ export default defineComponent({
 </script>
 
 <style>
-  .container{
+  .main-container{
+    width: 1200px;
+    margin: 0 auto;
+  }
+  .main-content{
     width: 1000px;
     margin: 0 auto;
+
   }
 </style>
