@@ -28,17 +28,18 @@ const signupForm = reactive({
 });
 
 const passwordCheck = ref('');
-let availableSignup:boolean ;
+let availableSignup:boolean = false;
 
 const isAvailableId = async() => {
   console.log('아이디 중복검사 실행');
   try{
     const data = await userService.isAvailableId(signupForm.loginId);
     alert(data.message);
+    // signupForm.password.focus();
   }catch(error:any){
-    console.log(error.response.data);
     const errMsg = error.response.data.message; 
     alert(errMsg);
+
   }
 }
 

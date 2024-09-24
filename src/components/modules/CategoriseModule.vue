@@ -12,7 +12,7 @@
 // import categoriesService from '@/service/CategoriesService';
 import { ref } from 'vue';
 
-const selectedCategory = ref();
+const selectedCategory = ref('');
 const categories = ref<{value: string; text: string}[]>;
 
 // const getCategories = async() => {

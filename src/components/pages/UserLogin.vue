@@ -1,13 +1,27 @@
 <template>
   <div class="loginForm">
-    <h3>로그인</h3>
-    <b-form-input type="text" v-model="loginForm.loginId" placeholder="ID를 입력하세요" tabindex="0"/>
-    <b-form-input type="password" v-model="loginForm.password" placeholder="비밀번호를 입력하세요"/>
-    <b-button variant="primary" @click="login">로그인</b-button>
-    <b-button variant="outline-primary" @click="goSignupForm">회원가입</b-button>
+    <v-sheet class="mx-auto" width="400">
+      <h3 class="login-title">로그인</h3>
+      <v-form fast-fail @submit.prevent>
+        <v-text-field 
+          v-model="loginData.loginId"
+          label="아이디"
+          :error-messages="emptyValue.loginIdRules"
+          @focus="clearError('loginIdRules')"
+        ></v-text-field>
+        <v-text-field
+          v-model="loginData.password"
+          label="비밀번호"
+          type="password"
+          :error-messages="emptyValue.passwordRules"
+          @focus="clearError('passwordRules')"
+        ></v-text-field>
+        <v-btn class="mt-2" type="submit" block @click="login">로그인</v-btn>
+        <v-btn class="mt-2" type="button" block @click="goSignupForm">회원가입</v-btn>
+      </v-form>
+    </v-sheet>
   </div>
 </template>
-
 
 // TODO  입력 값이 없을 경우 막기
 <script setup lang="ts">
@@ -19,32 +33,46 @@
   const router = useRouter();
   const authStore = useAuthStore();
 
-  const loginForm = reactive ({
+  const loginData = reactive ({
     loginId:'',
     password:''
   });
 
+  const emptyValue = reactive({
+    loginIdRules:'',
+    passwordRules:''
+  });
+
+
   const login = () =>{
-    userService.userLogin(loginForm).then( (response) => {
-      if(response.token != null){
-        localStorage.setItem('accessToken', response.token);
-
-        const previousRoute = localStorage.getItem('previousRoute');
-
-        if (previousRoute) {
-          authStore.setLogin(response.token);
+    emptyValue.loginIdRules ='';
+    emptyValue.passwordRules = '';
+    if(!loginData.loginId){
+      emptyValue.loginIdRules = '아이디를 입력해주세요.';
+    }
+    if(!loginData.password){
+      emptyValue.passwordRules = '비밀번호를 입력해주세요.';
+    }
+    if(!emptyValue.loginIdRules && !emptyValue.passwordRules){
+      userService.userLogin(loginData).then( (token) => {
+        if(token != null){
+          localStorage.setItem('accessToken', token.data);
+          const previousRoute: string = localStorage.getItem('previousRoute') ?? "/";
+          authStore.setLogin(token.data);
           router.push(previousRoute);
           localStorage.removeItem('previousRoute');
-        } else {
-          alert('not found previous path');
-          router.push('/');
         }
+      }).catch((error)=>{
+        const msg = error.response.data.message;
+        alert(msg);
+        loginData.loginId.focus();
+      });
+    }
+  };
 
-      }else{
-        alert(response.message);
-      }
-    });
-  }
+  const clearError = (field: 'loginIdRules' | 'passwordRules') => {
+  emptyValue[field] = '';
+};
 
   const goSignupForm = () =>{
       router.push('/signup');
@@ -59,13 +87,7 @@
     margin: 50px auto;
   }
 
-  .loginForm h3 {
+  .login-title {
     margin-bottom: 30px;
   }
-  
-  .loginForm input, .loginForm button{
-    width: 100%;
-    margin: 3px 2px;
-  }
-  
 </style>
