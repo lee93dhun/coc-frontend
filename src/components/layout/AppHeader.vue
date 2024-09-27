@@ -12,7 +12,7 @@
       </b-nav>
       <div class="header-account">
         <template v-if="authStore.isLogin">
-          <b>{{authStore.loginId}}</b>님, 로그인 럭키비키잖아
+          <b>{{authStore.loginId}}</b> 님
           <b-button size="sm" variant="light" @click="logout">로그아웃</b-button>
         </template>
         <template v-else>
