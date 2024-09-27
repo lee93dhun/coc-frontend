@@ -63,9 +63,9 @@
           localStorage.removeItem('previousRoute');
         }
       }).catch((error)=>{
+        // TODO alert 창 -> errorMassage 알림 text로 변경
         const msg = error.response.data.message;
         alert(msg);
-        // loginData.loginId.focus();
       });
     }
   };

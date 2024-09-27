@@ -1,10 +1,10 @@
 import {createRouter, createWebHistory} from 'vue-router'
 import MainPage from '@/components/pages/MainPage.vue'
 import UserLogin from '@/components/pages/UserLogin.vue';
-import NoticeBoard from '@/components/pages/NoticeBoard.vue';
-import FreeBoard from '@/components/pages/FreeBoard.vue';
-import GalleryBoard from '@/components/pages/GalleryBoard.vue';
-import QnaBoard from '@/components/pages/QnaBoard.vue';
+import NoticeBoard from '@/components/pages/notice/NoticeBoard.vue';
+import FreeBoard from '@/components/pages/free/FreeBoard.vue';
+import GalleryBoard from '@/components/pages/gallery/GalleryBoard.vue';
+import QnaBoard from '@/components/pages/qna/QnaBoard.vue';
 import UserSignup from '@/components/pages/UserSignup.vue';
 
 const routes = [
